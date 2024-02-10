@@ -12,13 +12,13 @@ export class ApiStack extends Stack {
     super(parent, "CardsWebserverApiStack");
 
     const corsAllowedOrigins = "http://localhost:8080";
-    const apiFunctions = this.buildAPIFunctions(corsAllowedOrigins);
+    this.buildAPIFunctions(corsAllowedOrigins);
 
   }
 
   private buildAPIFunctions(corsAllowedOrigins: string): Function[] {
     const apiNestHandlerFunction = new Function(this, "CardsApiNestHandler", {
-      code: Code.fromAsset("./../dist"),
+      code: Code.fromAsset("./dist"),
       runtime: Runtime.NODEJS_20_X,
       handler: "main.handler",
       environment: {
@@ -50,7 +50,7 @@ export class ApiStack extends Stack {
               "method.response.header.Access-Control-Allow-Headers":
                 "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
               "method.response.header.Access-Control-Allow-Origin":
-              corsAllowedOrigins,
+              `'${corsAllowedOrigins}'`,
               "method.response.header.Access-Control-Allow-Credentials":
                 "'true'",
               "method.response.header.Access-Control-Allow-Methods":
