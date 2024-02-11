@@ -1,11 +1,11 @@
 module.exports = function (options, webpack) {
   return {
     ...options,
-    entry: ['./src/lambda.ts'],
+    entry: ["./src/lambda.ts"],
     externals: [],
     output: {
       ...options.output,
-      libraryTarget: 'commonjs2',
+      libraryTarget: "commonjs2",
     },
     plugins: [
       ...options.plugins,
@@ -13,8 +13,8 @@ module.exports = function (options, webpack) {
         checkResource(resource) {
           // Ignoring non-essential modules for Lambda deployment
           return [
-            '@nestjs/websockets/socket-module',
-            '@nestjs/microservices/microservices-module'
+            "@nestjs/websockets/socket-module",
+            "@nestjs/microservices/microservices-module",
           ].includes(resource);
         },
       }),

@@ -1,5 +1,4 @@
 import { NestFactory } from "@nestjs/core";
-
 import { AppModule } from "cards-webserver-nestjs/dist/app/app.module";
 
 async function bootstrap() {
