@@ -6,9 +6,14 @@ import {
   PassthroughBehavior,
   RestApi,
 } from "aws-cdk-lib/aws-apigateway";
+import { ITable } from "aws-cdk-lib/aws-dynamodb";
 import { Code, Function, FunctionBase, Runtime } from "aws-cdk-lib/aws-lambda";
 
-interface ApiStackProperties {}
+interface ApiStackProperties {
+  usersTable: ITable;
+  spacesTable: ITable;
+  cardsTable: ITable;
+}
 
 export class ApiStack extends Stack {
   constructor(
@@ -28,8 +33,18 @@ export class ApiStack extends Stack {
       handler: "main.handler",
       environment: {
         CORS_ALLOWED_ORIGINS: corsAllowedOrigins,
+        USER_STORE_TYPE: "dynamodb",
+        CARD_STORE_TYPE: "dynamodb",
+        SPACE_STORE_TYPE: "dynamodb",
+        DYNAMODB_USER_TABLENAME: this.properties.usersTable.tableName,
+        DYNAMODB_SPACE_TABLENAME: this.properties.spacesTable.tableName,
+        DYNAMODB_CARD_TABLENAME: this.properties.cardsTable.tableName,
       },
     });
+
+    this.properties.cardsTable.grantReadWriteData(apiNestHandlerFunction);
+    this.properties.usersTable.grantReadData(apiNestHandlerFunction);
+    this.properties.spacesTable.grantReadData(apiNestHandlerFunction);
 
     const api = new RestApi(this, "CardsApi", {
       deploy: true,

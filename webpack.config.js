@@ -15,6 +15,7 @@ module.exports = function (options, webpack) {
           return [
             "@nestjs/websockets/socket-module",
             "@nestjs/microservices/microservices-module",
+            "class-transformer/storage",
           ].includes(resource);
         },
       }),

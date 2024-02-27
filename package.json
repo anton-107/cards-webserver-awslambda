@@ -14,7 +14,7 @@
     "fix-lint": "eslint . --ext .ts --fix",
     "fix": "npm run fix-format && npm run fix-lint",
     "synthesize": "cdk synthesize",
-    "deploy": "cdk deploy",
+    "deploy": "cdk deploy --all",
     "diff": "cdk diff",
     "list-stacks": "cdk list"
   },
